@@ -1,0 +1,24 @@
+{
+  "name": "stick-man-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Stick-man explainer: why you can't stop checking your phone (Python + React + Remotion)",
+  "scripts": {
+    "generate": "python3 generate.py",
+    "generate:silent": "python3 generate.py --silent",
+    "dev": "remotion studio index.ts",
+    "render": "remotion render index.ts StickMan out.mp4",
+    "build": "python3 generate.py && remotion render index.ts StickMan out.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "typescript": "^5.5.0"
+  }
+}

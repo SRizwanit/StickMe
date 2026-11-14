@@ -1,0 +1,9 @@
+export const INK = "#222222";
+export const PAPER = "#faf6ec";
+export const RED = "#e4572e";
+export const BLUE = "#2e86de";
+export const GREEN = "#4caf50";
+export const YELLOW = "#f6c344";
+export const GRAY = "#9a9384";
+export const PINK = "#f4a6b8";
+export const BROWN = "#9b6b43";
