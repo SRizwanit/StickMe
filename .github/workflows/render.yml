@@ -1,0 +1,62 @@
+name: Render video
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "script.txt"
+      - "generate.py"
+      - "*.ts"
+      - "*.tsx"
+      - "package.json"
+      - ".github/workflows/render.yml"
+
+concurrency:
+  group: render-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install dependencies
+        run: |
+          pip install edge-tts
+          npm install
+
+      - name: Generate narration + timing (script.txt -> voice.mp3, data.json)
+        run: python3 generate.py
+
+      - name: Render video
+        run: npx remotion render index.ts StickMan out.mp4 --log=info
+
+      - name: Upload video
+        uses: actions/upload-artifact@v4
+        with:
+          name: stick-man-video
+          path: out.mp4
+          retention-days: 30
+
+      - name: Upload narration + timing (for debugging)
+        uses: actions/upload-artifact@v4
+        with:
+          name: voice-and-data
+          path: |
+            voice.mp3
+            data.json
+          retention-days: 7
